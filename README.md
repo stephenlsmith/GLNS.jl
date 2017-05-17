@@ -1,15 +1,13 @@
 # GLNS
 
 A Generalized Traveling Salesman Problem (GTSP) Solver.  
+
 This solver is implemented in Julia (<http://julialang.org/>).  
-More information on the sovler is given at
 
-	 <https://ece.uwaterloo.ca/~sl2smith/GLNS/>
-
+More information on the sovler is given at <https://ece.uwaterloo.ca/~sl2smith/GLNS/>
 
 ## Citing this work
 The solver and its settings are described in the following paper.  
-When possible, please cite this paper when using this solver.
 
 	@Article{Smith2016GLNS,
 		author =    {S. L. Smith and F. Imeson},
@@ -20,7 +18,7 @@ When possible, please cite this paper when using this solver.
 		note =      {To appear},  
 	}
 
-
+When possible, please cite this paper when using this solver.
 
 
 ## Using the solver
