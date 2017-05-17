@@ -1,13 +1,15 @@
 # GLNS -- A Generalized Traveling Salesman Problem (GTSP) Solver 
 
-A solver for the Generalized Traveling Salesman Problem implemented in Julia (<http://julialang.org/>). 
+A solver for the Generalized Traveling Salesman Problem implemented
+in Julia (<http://julialang.org/>). 
 
 The solver and its settings are described in the following paper:
 
 ```
 @Article{Smith2016GLNS,
 	author =    {S. L. Smith and F. Imeson},
-	title =     {GLNS}: An Effective Large Neighborhood Search Heuristic for the Generalized Traveling Salesman Problem},
+	title =     {GLNS}: An Effective Large Neighborhood Search Heuristic
+	             for the Generalized Traveling Salesman Problem},
 	journal =   {Computers \& Operations Research},
 	year =      2017,
 	note =      {To appear},  
@@ -28,8 +30,8 @@ The solver can be run from the command line or from the Julia REPL.
 ### Running from the command line
 
 
-Julia has a startup time of approximately 0.5 seconds, which gives this option
-a delay over option two below.  The syntax is as follows:
+Julia has a startup time of approximately 0.5 seconds, which gives this
+option a delay over option two below.  The syntax is as follows:
 
 
 `$ ./GLNScmd.jl <path_to_instance> -options`
@@ -39,14 +41,15 @@ The following are a few examples
 ```$ ./GLNScmd.jl test/39rat195.gtsp
 $ ./GLNScmd.jl test/39rat195.gtsp -mode=fast -output=tour.txt```
 
-GLNS can also be set to run "persistently" for a given amount of time. The following example will run for 60 seconds before terminating.
+GLNS can also be set to run "persistently" for a given amount of time. 
+The following example will run for 60 seconds before terminating.
 
 `$ ./GLNScmd.jl test/39rat195.gtsp -max_time=60 -trials=100000`
 
 ### Running from the Julia REPL
 
-For this method you should launch Julia, include the GLNS module, and then call
-the solver. This is done as follows:
+For this method you should launch Julia, include the GLNS module, and then 
+call the solver. This is done as follows:
 
 ```
 $ julia
@@ -54,9 +57,10 @@ julia> include("GLNS.jl")
 julia> GLNS.solver("<path_to_instance>", options)
 ```
 
-The following are a few examples.  The first is the default setting.  The last example is
- a persistent solver that will run for at most 30 seconds, but will quit if it finds a tour of
- cost 15,505 or less (the optimal for this instance is 15,502):
+The following are a few examples.  The first is the default setting.  The 
+last example is a persistent solver that will run for at most 30 seconds, 
+but will quit if it finds a tour of cost 15,505 or less (the optimal for 
+this instance is 15,502):
 
 ```
 julia> GLNS.solver("test/39rat195.gtsp") 
