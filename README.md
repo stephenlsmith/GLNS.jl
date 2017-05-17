@@ -3,6 +3,7 @@
 A solver for the Generalized Traveling Salesman Problem implemented in Julia (<http://julialang.org/>). 
 
 The solver and its settings are described in the following paper:
+
 ```
 @Article{Smith2016GLNS,
 	author =    {S. L. Smith and F. Imeson},
@@ -53,13 +54,14 @@ julia> include("GLNS.jl")
 julia> GLNS.solver("<path_to_instance>", options)
 ```
 
-The following are a few examples.  The first is the default setting and the last is
- the a persistent solver that will run for 30 seconds
+The following are a few examples.  The first is the default setting.  The last example is
+ a persistent solver that will run for at most 30 seconds, but will quit if it finds a tour of
+ cost 15,505 or less (the optimal for this instance is 15,502):
 
 ```
 julia> GLNS.solver("test/39rat195.gtsp") 
 julia> GLNS.solver("test/39rat195.gtsp", mode="slow")
-julia> GLNS.solver("test/107si535.gtsp", max_time=30, trials=100000)
+julia> GLNS.solver("test/107si535.gtsp", max_time=60, budget=15505, trials=100000)
 ```
 
 
@@ -81,16 +83,16 @@ The GLNS solver contains the following files.
 ## Licence 
 Copyright 2017 Stephen L. Smith and Frank Imeson
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");  
+you may not use this file except in compliance with the License.  
+You may obtain a copy of the License at  
 
     http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
+Unless required by applicable law or agreed to in writing, software  
+distributed under the License is distributed on an "AS IS" BASIS,  
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+See the License for the specific language governing permissions and  
 limitations under the License.
  
 
