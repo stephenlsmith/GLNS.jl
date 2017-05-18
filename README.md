@@ -11,7 +11,7 @@ The solver and its settings are described in the following paper.
 
 	@Article{Smith2016GLNS,
 		author =    {S. L. Smith and F. Imeson},
-		title =     {GLNS}: An Effective Large Neighborhood Search Heuristic
+		title =     {{GLNS}: An Effective Large Neighborhood Search Heuristic
 		             for the Generalized Traveling Salesman Problem},
 		journal =   {Computers \& Operations Research},
 		year =      2017,
