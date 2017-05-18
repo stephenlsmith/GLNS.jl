@@ -86,7 +86,7 @@ The GLNS solver contains the following files.
 - test/ -- contains sample GTSP instances for testing
 
 
-## Licence 
+## License 
 Copyright 2017 Stephen L. Smith and Frank Imeson
 
 Licensed under the Apache License, Version 2.0 (the "License");  
