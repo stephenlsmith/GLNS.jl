@@ -291,7 +291,7 @@ tour.  Bias is based on the power input.  Vertices are then selected via pdf sel
 """
 function worst_removal!(tour::Array{Int64,1}, dist::Array{Int64, 2}, 
 							num_to_remove::Int64, member::Array{Int64,1}, power::Float64)
-    deleted_sets = Array(Int, 0)
+    deleted_sets = Array{Int}(0)
 	while length(deleted_sets) < num_to_remove
 		removal_costs = worst_vertices(tour, dist)
 		ind = pdf_select(removal_costs, power)
@@ -308,7 +308,7 @@ end
 """ removing a single continuos segment of the tour of size num_remove """
 function segment_removal!(tour::Array{Int64, 1}, num_to_remove::Int64, member::Array{Int64,1})
 	i = rand(1:length(tour))
-	deleted_sets = Array(Int, 0)
+	deleted_sets = Array{Int}(0)
 	while length(deleted_sets) < num_to_remove
 		i > length(tour) && (i = 1)
 		push!(deleted_sets, member[tour[i]])
@@ -321,8 +321,8 @@ end
 """  pick a random vertex, and delete its closest neighbors  """
 function distance_removal!(tour::Array{Int64,1}, dist::Array{Int64, 2}, 
 							   num_to_remove::Int64, member::Array{Int64,1}, power::Float64)
-    deleted_sets = Array(Int, 0)
-    deleted_vertices = Array(Int, 0)
+    deleted_sets = Array{Int}(0)
+    deleted_vertices = Array{Int}(0)
 
     seed_index = rand(1:length(tour))
     push!(deleted_sets, member[tour[seed_index]])
