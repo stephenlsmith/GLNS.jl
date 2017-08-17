@@ -32,6 +32,10 @@ timeout, or to have it quit when a solution cost threshold is met.
 
 The solver can be run from the command line or from the Julia REPL. 
 
+The input to the solver is a text file in 
+[GTSPLIB format](http://www.cs.rhul.ac.uk/home/zvero/GTSPLIB/), which is an extension of the
+[TSPLIB format](https://www.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/). 
+
 ### Running from the command line
 
 
@@ -86,7 +90,7 @@ The GLNS solver contains the following files.
 	- parse_print.jl
 	- tour_optimizations.jl
 	- utilities.jl
-- test/ -- contains sample GTSP instances for testing
+- test/ -- contains sample GTSP instances for testing and as example inputs
 
 
 ## License 
