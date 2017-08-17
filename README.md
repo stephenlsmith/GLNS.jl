@@ -63,9 +63,9 @@ julia> GLNS.solver("<path_to_instance>", options)
 ```
 
 The following are a few examples.  The first is the default setting.  The   
-last example is a persistent solver that will run for at most 30 seconds,   
-but will quit if it finds a tour of cost 13,505 or less (the optimal for   
-this instance is 13,502):
+last example is a persistent solver that will run for at most 60 seconds,   
+but will quit if it finds a tour of cost 13,505 or less (the best known solution    
+for this instance is 13,502):
 
 ```
 julia> GLNS.solver("test/39rat195.gtsp") 
