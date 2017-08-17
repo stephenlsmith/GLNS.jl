@@ -4,21 +4,24 @@ A Generalized Traveling Salesman Problem (GTSP) Solver.
 
 This solver is implemented in Julia (<http://julialang.org/>).  
 
-More information on the sovler is given at <https://ece.uwaterloo.ca/~sl2smith/GLNS/>
+More information on the solver is given at <https://ece.uwaterloo.ca/~sl2smith/GLNS/>
 
 ## Citing this work
-The solver and its settings are described in the following paper.  
+The solver and its settings are described in the following paper
+[[DOI]](https://doi.org/10.1016/j.cor.2017.05.010) [[PDF]](https://ece.uwaterloo.ca/~sl2smith/papers/2017COR-GLNS.pdf):  
 
-	@Article{Smith2016GLNS,
+	@Article{Smith2017GLNS,
 		author =    {S. L. Smith and F. Imeson},
 		title =     {{GLNS}: An Effective Large Neighborhood Search Heuristic
 		             for the Generalized Traveling Salesman Problem},
 		journal =   {Computers \& Operations Research},
+		volume =    87,
+   	    pages =     {1-19},
 		year =      2017,
-		note =      {To appear},  
 	}
 
-When possible, please cite this paper when using this solver.
+
+Please cite this paper when using GLNS.
 
 
 ## Using the solver
