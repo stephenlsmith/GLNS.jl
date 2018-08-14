@@ -2,7 +2,7 @@
 
 A Generalized Traveling Salesman Problem (GTSP) Solver.  
 
-This solver is implemented in Julia (<http://julialang.org/>).  
+This solver is implemented in Julia (<http://julialang.org/>).  It is now **compatible with Julia v1.0.  Update Julia to v1.0 before running GLNS.**
 
 More information on the solver is given at <https://ece.uwaterloo.ca/~sl2smith/GLNS/>
 
