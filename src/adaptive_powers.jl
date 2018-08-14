@@ -17,7 +17,7 @@
 A struct to store each insertion/deletion method using its power,
 its weight, and its score on the last segment
 """
-type Power
+mutable struct Power
 	name::String
 	value::Float64
 	weight::Dict{Symbol, Float64}
@@ -26,13 +26,13 @@ type Power
 end
 
 
-""" initialize four noise values, none, low, med, and high """	
+""" initialize four noise values, none, low, med, and high """
 function initialize_noise(weights, scores, count, noise)
-	none = Power("additive", 0.0, Dict(:early => 1.0, :mid => 1.0, :late => 1.0), 
+	none = Power("additive", 0.0, Dict(:early => 1.0, :mid => 1.0, :late => 1.0),
 				 copy(scores), copy(count))
-	low = Power("additive", 0.25, Dict(:early => 1.0, :mid => 1.0, :late => 1.0), 
+	low = Power("additive", 0.25, Dict(:early => 1.0, :mid => 1.0, :late => 1.0),
 				 copy(scores), copy(count))
-	high = Power("additive", 0.75, Dict(:early => 1.0, :mid => 1.0, :late => 1.0), 
+	high = Power("additive", 0.75, Dict(:early => 1.0, :mid => 1.0, :late => 1.0),
 				 copy(scores), copy(count))
  	sublow = Power("subset", 0.5, Dict(:early => 1.0, :mid => 1.0, :late => 1.0),
 			 	 copy(scores), copy(count))
@@ -55,17 +55,17 @@ end
 initialize the insertion methods.  Use powers between -10 and 10
 the spacing between weights is chosen so that when you increase the weight,
 the probability of selecting something that is a given distance farther
-is cut in half. 
+is cut in half.
 """
 function initialize_powers(param)
 	weights = Dict(:early => 1.0, :mid => 1.0, :late => 1.0)
 	scores = Dict(:early => 0, :mid => 0, :late => 0)
 	count = Dict(:early => 0, :mid => 0, :late => 0)
-	
+
 	insertionpowers = Power[]
 	for insertion in param[:insertions]
 		if insertion == "cheapest"
-			push!(insertionpowers, Power(insertion, 0.0, copy(weights), copy(scores), 
+			push!(insertionpowers, Power(insertion, 0.0, copy(weights), copy(scores),
 				  copy(count)))
 		else
 			for value in param[:insertion_powers]
@@ -74,12 +74,12 @@ function initialize_powers(param)
 			end
 		end
 	end
-	
+
 	removalpowers = Power[]
 	# use only positive powers for randworst -- -ve corresponds to "best removal"
 	for removal in param[:removals]
 		if removal == "segment"
-			push!(removalpowers, Power(removal, 0.0, copy(weights), copy(scores), 
+			push!(removalpowers, Power(removal, 0.0, copy(weights), copy(scores),
 										copy(count)))
 		else
 			for value in param[:removal_powers]
@@ -87,12 +87,12 @@ function initialize_powers(param)
 					value == 0.0 && continue  # equivalent to randworst with 0.0
 					value *= -1.0  # for distance, we want to find closest vertices
 				end
-				push!(removalpowers, Power(removal, value, copy(weights), copy(scores), 
+				push!(removalpowers, Power(removal, value, copy(weights), copy(scores),
 											copy(count)))
 			end
 		end
 	end
-	
+
 	noises = initialize_noise(weights, scores, count, param[:noise])
 	# store the sum of insertion and deletion powers for roulette selection
 	powers = Dict("insertions" => insertionpowers,
@@ -101,7 +101,7 @@ function initialize_powers(param)
 				  "insertion_total" => total_power_weight(insertionpowers),
 				  "removal_total" => total_power_weight(removalpowers),
   				  "noise_total" => total_power_weight(noises),
-				  )	
+				  )
 	return powers
 end
 
@@ -132,7 +132,7 @@ function power_select(powers, total_weight, phase::Symbol)
 		end
 		selection -= powers[i].weight[phase]
 	end
-	return powers[1]  # should never hit this case, but if you do, return first bin?	
+	return powers[1]  # should never hit this case, but if you do, return first bin?
 end
 
 
@@ -161,7 +161,7 @@ function power_weight_update!(powers::Array{Power, 1}, param::Dict{Symbol,Any},
 	for power in powers
 		if power.count[phase] > 0 && param[:cold_trials] > 0  # average after 2nd trial
 			power.weight[phase] = param[:epsilon] * power.scores[phase]/power.count[phase] +
-									(1 - param[:epsilon]) * power.weight[phase]						
+									(1 - param[:epsilon]) * power.weight[phase]
 		elseif power.count[phase] > 0
 			power.weight[phase] = power.scores[phase]/power.count[phase]
 		end

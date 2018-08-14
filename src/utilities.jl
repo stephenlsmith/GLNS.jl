@@ -18,7 +18,7 @@
 
 """ tour type that stores the order array and the length of the tour
 """
-type Tour
+mutable struct Tour
 	tour::Array{Int64,1}
 	cost::Int64
 end
@@ -66,7 +66,7 @@ function findmember(num_vertices::Int64, sets::Array{Any, 1})
 end
 
 
-type Distsv
+struct Distsv
 	set_vert::Array{Int64, 2}
 	vert_set::Array{Int64,2}
 	min_sv::Array{Int64, 2}
@@ -83,11 +83,11 @@ function set_vertex_dist(dist::Array{Int64, 2}, num_sets::Int, member::Array{Int
     dist_set_vert = typemax(Int64) * ones(Int64, num_sets, numv)
 	mindist = typemax(Int64) * ones(Int64, num_sets, numv)
 	dist_vert_set = typemax(Int64) * ones(Int64, numv, num_sets)
-    
+
 	for i = 1:numv
         for j = 1:numv
 			set = member[j]
-			if dist[j,i] < dist_set_vert[set, i] 
+			if dist[j,i] < dist_set_vert[set, i]
 				dist_set_vert[set, i] = dist[j,i]
 			end
 			if dist[j,i] < mindist[set, i]  # dist from set containing j to vertex i
@@ -185,7 +185,7 @@ end
 """
 Checks if a tour is feasible in that it visits each set exactly once.
 """
-function tour_feasibility(tour::Array{Int64,1}, membership::Array{Int64,1}, 
+function tour_feasibility(tour::Array{Int64,1}, membership::Array{Int64,1},
 					      num_sets::Int64)
     length(tour) != num_sets && return false
 
@@ -210,7 +210,7 @@ end
 @inline function incremental_shuffle!(a::AbstractVector, i::Int)
     j = i + floor(Int, rand() * (length(a) + 1 - i))
    	a[j], a[i] = a[i], a[j]
-	return a[i] 
+	return a[i]
 end
 
 

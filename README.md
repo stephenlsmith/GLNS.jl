@@ -30,11 +30,11 @@ GLNS has three default settings: slow, default, and fast.
 It also has several flags that can be used to give to give the solver  
 timeout, or to have it quit when a solution cost threshold is met.
 
-The solver can be run from the command line or from the Julia REPL. 
+The solver can be run from the command line or from the Julia REPL.
 
-The input to the solver is a text file in 
+The input to the solver is a text file in
 [GTSPLIB format](http://www.cs.rhul.ac.uk/home/zvero/GTSPLIB/), which is an extension of the
-[TSPLIB format](https://www.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/). 
+[TSPLIB format](https://www.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/).
 
 ### Running from the command line
 
@@ -72,7 +72,7 @@ but will quit if it finds a tour of cost 13,505 or less (the best known solution
 for this instance is 13,502):
 
 ```
-julia> GLNS.solver("test/39rat195.gtsp") 
+julia> GLNS.solver("test/39rat195.gtsp")
 julia> GLNS.solver("test/39rat195.gtsp", mode="slow")
 julia> GLNS.solver("test/107si535.gtsp", max_time=60, budget=13505, trials=100000)
 ```
@@ -93,8 +93,8 @@ The GLNS solver contains the following files.
 - test/ -- contains sample GTSP instances for testing and as example inputs
 
 
-## License 
-Copyright 2017 Stephen L. Smith and Frank Imeson
+## License
+Copyright 2018 Stephen L. Smith and Frank Imeson
 
 Licensed under the Apache License, Version 2.0 (the "License");  
 you may not use this file except in compliance with the License.  
@@ -105,9 +105,9 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
 See the License for the specific language governing permissions and  
 limitations under the License.
- 
 
-## Contact information 
+
+## Contact information
 
 Prof. Stephen L. Smith  
 Department of Electrical and Computer Engineering  

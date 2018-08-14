@@ -20,12 +20,12 @@ N: int
 M: int
 Symmetric: true/false
 Triangle: true/false
-1 5 
-5 1 8 9 10 11 
-8 2 3 4 6 7 12 13 14 
+1 5
+5 1 8 9 10 11
+8 2 3 4 6 7 12 13 14
 DISTANCE_MATRIX
 
-Note: the line 5 1 8 9 10 11 shows that the second set contains 5 vertices: 
+Note: the line 5 1 8 9 10 11 shows that the second set contains 5 vertices:
 1,8,9,10,11.
 
 TSPLIB Parser defined by:
@@ -63,9 +63,9 @@ function read_file(filename)
 
         # auto format select
         if parse_state == "UNKNOWN_FORMAT"
-            if ismatch(r"^\s*NAME\s*:\s*\w+", uppercase(line))
+            if occursin(r"^\s*NAME\s*:\s*\w+", uppercase(line))
                 parse_state = "TSPLIB_HEADER"
-            elseif ismatch(r"^\s*N\s*:\s*\w+", uppercase(line))
+            elseif occursin(r"^\s*N\s*:\s*\w+", uppercase(line))
                 parse_state = "SIMPLE_HEADER"
             end
         end
@@ -73,29 +73,29 @@ function read_file(filename)
         # Parse Setup
         if parse_state == "TSPLIB_HEADER"
             value = strip(split(line,":")[end])
-            if ismatch(r"^\s*NAME\s*:\s*\w+", uppercase(line))
-            elseif ismatch(r"^\s*TYPE\s*:\s*\w+\s*$", uppercase(line))
-            elseif ismatch(r"^\s*DIMENSION\s*:\s*\d+\s*$", uppercase(line))
+            if occursin(r"^\s*NAME\s*:\s*\w+", uppercase(line))
+            elseif occursin(r"^\s*TYPE\s*:\s*\w+\s*$", uppercase(line))
+            elseif occursin(r"^\s*DIMENSION\s*:\s*\d+\s*$", uppercase(line))
                 num_vertices = parse(Int64, value)
                 dist = zeros(Int64, num_vertices, num_vertices)
-            elseif ismatch(r"^\s*GTSP_SETS\s*:\s*\d+\s*$", uppercase(line))
+            elseif occursin(r"^\s*GTSP_SETS\s*:\s*\d+\s*$", uppercase(line))
                 num_sets = parse(Int64, value)
-            elseif ismatch(r"^\s*EDGE_WEIGHT_TYPE\s*:\s*\w+\s*$", uppercase(line))
+            elseif occursin(r"^\s*EDGE_WEIGHT_TYPE\s*:\s*\w+\s*$", uppercase(line))
                 data_type = value
                 data_format = value
-            elseif ismatch(r"^\s*EDGE_WEIGHT_FORMAT\s*:\s*\w+\s*$", uppercase(line))
+            elseif occursin(r"^\s*EDGE_WEIGHT_FORMAT\s*:\s*\w+\s*$", uppercase(line))
                 if data_type == "EXPLICIT"
                     data_format = value
                 end
-            elseif ismatch(r"^\s*EDGE_WEIGHT_SECTION\s*:?\s*$", uppercase(line))
+            elseif occursin(r"^\s*EDGE_WEIGHT_SECTION\s*:?\s*$", uppercase(line))
                 parse_state = "TSPLIB_MATRIX_DATA"
-            elseif ismatch(r"^\s*NODE_COORD_SECTION\s*:?\s*$", uppercase(line))
+            elseif occursin(r"^\s*NODE_COORD_SECTION\s*:?\s*$", uppercase(line))
                 parse_state = "TSPLIB_COORD_DATA"
             end
 
         # Parse matrix data
         elseif parse_state == "TSPLIB_MATRIX_DATA"
-            if ismatch(r"^[\d\se+-\.]+$", line)
+            if occursin(r"^[\d\se+-\.]+$", line)
                 for x in split(line)
                     cost = parse(Int64, x)
                     # tested
@@ -152,44 +152,44 @@ function read_file(filename)
                         end
                     end
                 end
-            elseif ismatch(r"^\s*DISPLAY_DATA_SECTION\s*:?\s*$", uppercase(line))
+            elseif occursin(r"^\s*DISPLAY_DATA_SECTION\s*:?\s*$", uppercase(line))
                 parse_state = "TSPLIB_DISPLAY_DATA"
-            elseif ismatch(r"^\s*GTSP_SET_SECTION\s*:?\s*$", uppercase(line))
+            elseif occursin(r"^\s*GTSP_SET_SECTION\s*:?\s*$", uppercase(line))
                 parse_state = "TSPLIB_SET_DATA"
             end
 
         # Parse display data
         elseif parse_state == "TSPLIB_DISPLAY_DATA"
-            if ismatch(r"^\s*GTSP_SET_SECTION\s*:?\s*$", uppercase(line))
+            if occursin(r"^\s*GTSP_SET_SECTION\s*:?\s*$", uppercase(line))
                 parse_state = "TSPLIB_SET_DATA"
             end
 
         # Parse coord data
         elseif parse_state == "TSPLIB_COORD_DATA"
-            if ismatch(r"\s*\d+\s*", uppercase(line))
+            if occursin(r"\s*\d+\s*", uppercase(line))
                 coord = [parse(Float64, x) for x = split(line)[2:end]]
                 push!(coords, coord)
-            elseif ismatch(r"^\s*GTSP_SET_SECTION\s*:?\s*$", uppercase(line))
+            elseif occursin(r"^\s*GTSP_SET_SECTION\s*:?\s*$", uppercase(line))
                 parse_state = "TSPLIB_SET_DATA"
             end
 
         # Parse set data
         elseif parse_state == "TSPLIB_SET_DATA"
-            if ismatch(r"\d+", uppercase(line))
+            if occursin(r"\d+", uppercase(line))
                 for x = split(line)
                     push!(set_data, parse(Int64,x))
                 end
-            elseif ismatch(r"^\s*EOF\s*$", uppercase(line))
+            elseif occursin(r"^\s*EOF\s*$", uppercase(line))
                 parse_state = "TSPLIB"
             end
 
         # Parse header (simple)
         elseif parse_state == "SIMPLE_HEADER"
-            if ismatch(r"^\s*N\s*:\s*\w+", uppercase(line))
+            if occursin(r"^\s*N\s*:\s*\w+", uppercase(line))
                 value = strip(split(strip(line),":")[end])
                 num_vertices = parse(Int64, value)
                 dist = zeros(Int64, num_vertices, num_vertices)
-            elseif ismatch(r"^\s*M\s*:\s*\d+\s*$", uppercase(line))
+            elseif occursin(r"^\s*M\s*:\s*\d+\s*$", uppercase(line))
                 value = strip(split(strip(line),":")[end])
                 num_sets = parse(Int64, value)
                 parse_state = "SIMPLE_SETS"
@@ -197,7 +197,7 @@ function read_file(filename)
 
         # Parse set data (simple)
         elseif parse_state == "SIMPLE_SETS"
-            if ismatch(r"^[\d\se+-\.]+$", line)
+            if occursin(r"^[\d\se+-\.]+$", line)
                 sid = parse(Int64, split(line)[1])
                 set = [parse(Int64, x) for x in split(line)[2:end]]
                 push!(sets, set)
@@ -208,7 +208,7 @@ function read_file(filename)
 
         # Parse set data (simple)
         elseif parse_state == "SIMPLE_MATRIX"
-            if ismatch(r"^[\d\se+-\.]+$", line)
+            if occursin(r"^[\d\se+-\.]+$", line)
                 for x in split(line)
                     cost = parse(Int64, x)
                     dist[vid00, vid01] = cost
@@ -225,7 +225,7 @@ function read_file(filename)
 
     end
     close(s)
-    if ismatch(r"TSPLIB", parse_state)
+    if occursin(r"TSPLIB", parse_state)
         parse_state = "TSPLIB"
     end
 
@@ -350,7 +350,7 @@ function read_file(filename)
                 i += 1 # skip set id
             else
                 push!(set, x)
-            end        
+            end
             i += 1
         end
         if num_sets != length(sets)
@@ -372,7 +372,7 @@ end
 function degree_minutes(num)
 	if num > 0
 		deg = floor(Int64, num)
-		return deg, num - deg 
+		return deg, num - deg
 	else
 		deg = ceil(Int64, num)
 		return deg, num - deg
@@ -391,7 +391,7 @@ function print_params(param::Dict{Symbol,Any})
 		println("Instance Name      : ", param[:problem_instance])
 	    println("Number of Vertices : ", param[:num_vertices])
 	    println("Number of Sets     : ", param[:num_sets])
-		println("Initial Tour       : ", (param[:init_tour] == "rand" ? 
+		println("Initial Tour       : ", (param[:init_tour] == "rand" ?
 				"Random" : "Random Insertion"))
 		println("Maximum Removals   : ", param[:max_removals])
 		println("Trials             : ", param[:cold_trials])
@@ -421,7 +421,7 @@ function print_powers(powers)
 		println(power.name, " ", power.value, ": ", power.weight)
 	end
 	print("\n")
-	
+
 	println("\n Noises:")
 	for power in powers["noise"]
 		println(power.name, " ", power.value, ": ", power.weight)
@@ -431,61 +431,61 @@ end
 
 
 """print statement at the beginning of a cold trial"""
-function print_cold_trial(count::Dict{Symbol,Any}, param::Dict{Symbol,Any}, best::Tour)
+function print_cold_trial(count::Dict{Symbol,Real}, param::Dict{Symbol,Any}, best::Tour)
 	if param[:print_output] == 2
-		println("\n||--- trial ", count[:cold_trial], 
+		println("\n||--- trial ", count[:cold_trial],
 		" --- initial cost ", best.cost, " ---||")
 	end
 end
 
 
 """print details at the end of each warm trial"""
-function print_warm_trial(count::Dict{Symbol,Any}, param::Dict{Symbol,Any}, 
+function print_warm_trial(count::Dict{Symbol,Real}, param::Dict{Symbol,Any},
 							best::Tour, iter_count::Int)
 	if param[:print_output] == 2
-		println("-- ", count[:cold_trial], ".", count[:warm_trial], 
+		println("-- ", count[:cold_trial], ".", count[:warm_trial],
 		" - iterations ", iter_count, ":  ", "cost ", best.cost)
 	end
 end
 
 
 """ print best cost so far """
-function print_best(count::Dict{Symbol,Any}, param::Dict{Symbol,Any}, 
+function print_best(count::Dict{Symbol,Real}, param::Dict{Symbol,Any},
 							best::Tour, lowest::Tour, init_time::Float64)
 	if param[:print_output] == 1 && time() - count[:print_time] > param[:print_time]
 		count[:print_time] = time()
-		println("-- trial ", count[:cold_trial], ".", count[:warm_trial], ":", 
-				"  Cost = ", min(best.cost, lowest.cost), 
-				"  Time = ", round(count[:print_time] - init_time, 1), " sec") 
-	
+		println("-- trial ", count[:cold_trial], ".", count[:warm_trial], ":",
+				"  Cost = ", min(best.cost, lowest.cost),
+				"  Time = ", round(count[:print_time] - init_time, digits=1), " sec")
+
 	elseif (param[:print_output] == 3 && time() - count[:print_time] > 0.5) ||
 		param[:budget_met] || param[:timeout]
-		
+
 		count[:print_time] = time()
 		if param[:warm_trials] > 0
 			progress = (count[:cold_trial] - 1)/param[:cold_trials] +
-	 	   			 (count[:warm_trial])/param[:warm_trials]/param[:cold_trials]						   		
-		else 
+	 	   			 (count[:warm_trial])/param[:warm_trials]/param[:cold_trials]
+		else
 			progress = (count[:cold_trial] - 1)/param[:cold_trials]
 		end
-		tcurr = round(count[:print_time] - init_time, 1)
+		tcurr = round(count[:print_time] - init_time, digits=1)
 		cost = min(best.cost, lowest.cost)
 		progress_bar(param[:cold_trials], progress, cost, tcurr)
-	end	
+	end
 end
 
 
 """ a string representing the progress bar """
 function progress_bar(trials, progress, cost, time)
 	ticks, trials_per_bar, total_length = 6, 5, 31
-	progress == 1.0 && (progress -= 0.0001)	
+	progress == 1.0 && (progress -= 0.0001)
 	n = floor(Int64, progress * trials/trials_per_bar)
 	start_number = n * trials_per_bar
 	trials_in_bar = min(trials_per_bar, trials - start_number)
 
 	progress_in_bar = (progress * trials - start_number)/trials_in_bar
 	bar_length = min(total_length - 1, (trials - start_number) * ticks)
-	
+
 	progress_bar = "|"
 	for i=1:total_length
 		if i == bar_length + 1
@@ -505,20 +505,20 @@ end
 
 
 """print tour summary at end of execution"""
-function print_summary(lowest::Tour, timer::Float64, member::Array{Int64,1}, 
+function print_summary(lowest::Tour, timer::Float64, member::Array{Int64,1},
 						param::Dict{Symbol,Any})
 	if param[:print_output] == 3 && !param[:timeout] && !param[:budget_met]
-		progress_bar(param[:cold_trials], 1.0, lowest.cost, round(timer, 1))
+		progress_bar(param[:cold_trials], 1.0, lowest.cost, round(timer, digits=1))
 	end
 	if param[:print_output] > -1
 		if (param[:print_output] > 0 || param[:output_file] == "None")
 			println("\n\n", "--------- Tour Summary ------------")
 			println("Cost              : ", lowest.cost)
-			println("Total Time        : ", round(timer, 2), " sec")
+			println("Total Time        : ", round(timer, digits=2), " sec")
 			println("Solver Timeout?   : ", param[:timeout])
-			println("Tour is Feasible? : ", tour_feasibility(lowest.tour, member, 
+			println("Tour is Feasible? : ", tour_feasibility(lowest.tour, member,
 																	param[:num_sets]))
-			order_to_print = (param[:output_file] == "None" ? 
+			order_to_print = (param[:output_file] == "None" ?
 					lowest.tour : "printed to " * param[:output_file])
 			println("Output File       : ",  param[:output_file])
 			println("Tour Ordering     : ",  order_to_print)
@@ -531,7 +531,7 @@ function print_summary(lowest::Tour, timer::Float64, member::Array{Int64,1},
 			write(s, "Sets             : ", string(param[:num_sets]), "\n")
 			write(s, "Comment          : To avoid ~0.5sec startup time, use the Julia REPL\n")
 			write(s, "Host Computer    : ", gethostname(), "\n")
-			write(s, "Solver Time      : ", string(round(timer, 3)), " sec\n")
+			write(s, "Solver Time      : ", string(round(timer, digits=3)), " sec\n")
 			write(s, "Tour Cost        : ", string(lowest.cost), "\n")
 			write(s, "Tour             : ", string(lowest.tour))
 			close(s)
@@ -547,4 +547,3 @@ init function defined by TSPLIB
 function nint(x::Float64)
     return floor(Int64, x + 0.5)
 end
-
