@@ -61,13 +61,13 @@ function parse_cmd(ARGS)
 			flag = temp[1]
 			value = temp[2]
 			if flag in int_flags
-				key = convert(Symbol, flag[2:end])
+				key = Symbol(flag[2:end])
 				optional_args[key] = parse(Int64, value)
 			elseif flag in float_flags
-				key = convert(Symbol, flag[2:end])
+				key = Symbol(flag[2:end])
 				optional_args[key] = parse(Float64, value)
 			elseif flag in string_flags
-				key = convert(Symbol, flag[2:end])
+				key = Symbol(flag[2:end])
 				optional_args[key] = value
 			else
 				println("WARNING: skipping unknown flag ", flag, " in command line arguments")
