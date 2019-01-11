@@ -97,7 +97,7 @@ function solver(problem_instance; args...)
 			    if best.cost <= param[:budget] || time() - init_time > param[:max_time]
 					param[:timeout] = (time() - init_time > param[:max_time])
 					param[:budget_met] = (best.cost <= param[:budget])
-					timer = toq()
+					timer = (time_ns() - start_time)/1.0e9
 					lowest.cost > best.cost && (lowest = best)
 					print_best(count, param, best, lowest, init_time)
 					print_summary(lowest, timer, membership, param)
