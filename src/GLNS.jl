@@ -14,12 +14,12 @@
 module GLNS
 export solver
 using Random
-include("src/utilities.jl")
-include("src/parse_print.jl")
-include("src/tour_optimizations.jl")
-include("src/adaptive_powers.jl")
-include("src/insertion_deletion.jl")
-include("src/parameter_defaults.jl")
+include("utilities.jl")
+include("parse_print.jl")
+include("tour_optimizations.jl")
+include("adaptive_powers.jl")
+include("insertion_deletion.jl")
+include("parameter_defaults.jl")
 
 """
 Main GTSP solver, which takes as input a problem instance and
