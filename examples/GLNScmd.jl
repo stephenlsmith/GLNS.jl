@@ -14,8 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+using GLNS
 
-include("GLNS.jl")
 """
 Optional Flags -- values are given in square brackets []  
 	-max_time=[Int]				 (default set by mode)
