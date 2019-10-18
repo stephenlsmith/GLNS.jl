@@ -113,9 +113,9 @@ limitations under the License.
 
 ## Contact information
 
-Prof. Stephen L. Smith
-Department of Electrical and Computer Engineering
-University of Waterloo
-Waterloo, ON Canada
-web: <https://ece.uwaterloo.ca/~sl2smith/>
-email: <stephen.smith@uwaterloo.ca>
+Prof. Stephen L. Smith   
+Department of Electrical and Computer Engineering   
+University of Waterloo   
+Waterloo, ON Canada   
+web: <https://ece.uwaterloo.ca/~sl2smith/>   
+email: <stephen.smith@uwaterloo.ca>   
