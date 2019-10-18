@@ -41,7 +41,7 @@ The input to the solver is a text file in
 
 Julia has a startup time of approximately 0.5 seconds, which gives this
 option a delay over option two below.  Download the command line solver **GLNScmd.jl** from this repository and place in a convenient location.
-The syntax is as follows:
+The syntax is:
 
 ```bash
 $ <path_to_script>/GLNScmd.jl <path_to_instance> -options
