@@ -40,38 +40,41 @@ The input to the solver is a text file in
 
 
 Julia has a startup time of approximately 0.5 seconds, which gives this
-option a delay over option two below.  Download the command line solver, _GLNScmd.jl_, from this repository and place in a convenient location.
+option a delay over option two below.  Download the command line solver **GLNScmd.jl** from this repository and place in a convenient location.
 The syntax is as follows:
 
-`$ <path_to_script>/GLNScmd.jl <path_to_instance> -options`
+```bash
+$ <path_to_script>/GLNScmd.jl <path_to_instance> -options
+```
 
-The following are a few examples
+The following are a few examples:
 
-```$ ./GLNScmd.jl test/39rat195.gtsp
-$ <path_to_script>/GLNScmd.jl test/39rat195.gtsp -mode=fast -output=tour.txt```
+```bash
+$ <path_to_script>/GLNScmd.jl test/39rat195.gtsp
+$ <path_to_script>/GLNScmd.jl test/39rat195.gtsp -mode=fast -output=tour.txt
 
-GLNS can also be set to run "persistently" for a given amount of time.
-The following example will run for 60 seconds before terminating.
-
-`$ <path_to_script>/GLNScmd.jl test/39rat195.gtsp -max_time=60 -trials=100000`
+# GLNS can also be set to run "persistently" for a given amount of time.
+# The following example will run for 60 seconds before terminating.
+$ <path_to_script>/GLNScmd.jl test/39rat195.gtsp -max_time=60 -trials=100000
+```
 
 ### Running from the Julia REPL
 
 For this method you should launch Julia, include the GLNS module, and then
 call the solver. This is done as follows:
 
-```
+```julia
 $ julia
 julia> include("GLNS.jl")
 julia> GLNS.solver("<path_to_instance>", options)
 ```
 
-The following are a few examples.  The first is the default setting.  The
+Here are a few more examples.  The first uses the default settings.  The
 last example is a persistent solver that will run for at most 60 seconds,
 but will quit if it finds a tour of cost 13,505 or less (the best known solution
 for this instance is 13,502):
 
-```
+```julia
 julia> GLNS.solver("test/39rat195.gtsp")
 julia> GLNS.solver("test/39rat195.gtsp", mode="slow")
 julia> GLNS.solver("test/107si535.gtsp", max_time=60, budget=13505, trials=100000)
@@ -79,9 +82,10 @@ julia> GLNS.solver("test/107si535.gtsp", max_time=60, budget=13505, trials=10000
 
 
 ## Index of files
-The GLNS solver contains the following files.
+The GLNS solver package is arranged as follows.
 
-- GLNScmd.jl --- command line solver
+- GLNScmd.jl -- Command line solver 
+- examples/ -- contains sample GTSP instances for testing and as example inputs
 - src/ -- contains
     - GLNS.jl --- Main Julia solver
 	- adaptive_powers.jl
@@ -90,7 +94,6 @@ The GLNS solver contains the following files.
 	- parse_print.jl
 	- tour_optimizations.jl
 	- utilities.jl
-- examples/ -- contains sample GTSP instances for testing and as example inputs
 - test/ -- test scripts for installation verification
 
 
