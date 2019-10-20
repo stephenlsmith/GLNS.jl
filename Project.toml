@@ -1,7 +1,7 @@
 name = "GLNS"
 uuid = "516e1c79-eeb0-43d2-9daf-3648d985e5d9"
 authors = ["Stephen L. Smith <stephen.smith@uwaterloo.ca>, Frank Imeson"]
-version = "0.1.0"
+version = "1.0.0"
 
 [deps]
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
