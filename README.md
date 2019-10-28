@@ -1,13 +1,11 @@
 # GLNS
 
-A solver for the Generalized Traveling Salesman Problem (GTSP).
-
-This solver is implemented in Julia (<http://julialang.org/>) and is available through the package manager.  It can also be run through the command line, as detailed below.
+GLNS is a solver for the Generalized Traveling Salesman Problem (GTSP), implemented in Julia (<http://julialang.org/>).
 
 More information on the solver is given at <https://ece.uwaterloo.ca/~sl2smith/GLNS/>
 
 ## Citing this work
-The solver and its settings are described in the following paper
+The GLNS solver and its settings are described in the following paper
 [[DOI]](https://doi.org/10.1016/j.cor.2017.05.010) [[PDF]](https://ece.uwaterloo.ca/~sl2smith/papers/2017COR-GLNS.pdf):
 
 	@Article{Smith2017GLNS,
@@ -16,26 +14,16 @@ The solver and its settings are described in the following paper
 		             for the Generalized Traveling Salesman Problem},
 		journal =   {Computers \& Operations Research},
 		volume =    87,
-   	    pages =     {1-19},
+		pages =     {1-19},
 		year =      2017,
 	}
-
 
 Please cite this paper when using GLNS.
 
 
 ## Using the solver
 
-GLNS has three default settings: slow, default, and fast.
-It also has several flags that can be used to give to give the solver
-timeout, or to have it quit when a solution cost threshold is met.
-
 The solver can be run from the command line or from the Julia REPL.
-
-The input to the solver is a text file in
-[GTSPLIB format](http://www.cs.rhul.ac.uk/home/zvero/GTSPLIB/), which is an extension of the
-[TSPLIB format](https://www.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/).
-
 
 ### Installation
 
@@ -52,7 +40,18 @@ julia> import GLNS
 julia> GLNS.solver("<path_to_instance>", options)
 ```
 
+The input to GLNS is a text file in
+[GTSPLIB format](http://www.cs.rhul.ac.uk/home/zvero/GTSPLIB/), which is an extension of the
+[TSPLIB format](https://www.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/).  
+
+Three example inputs are given in the examples directory of the repository.
+
+
 ### Solver usage and examples
+
+GLNS has three default settings: slow, default, and fast.
+It also has several flags that can be used to give to give the solver
+timeout, or to have it quit when a solution cost threshold is met.
 
 *Example 1:* Solving the instance "39rat195.gtsp" using the default settings.  The solver settings, tour cost, and tour are outputted to the file "tour.txt" (written to the working directory).
 
