@@ -1,8 +1,8 @@
 # GLNS
 
-A Generalized Traveling Salesman Problem (GTSP) Solver.
+A solver for the Generalized Traveling Salesman Problem (GTSP).
 
-This solver is implemented in Julia (<http://julialang.org/>).  It is now **compatible with Julia v1.0.  Update Julia to v1.0 before running GLNS.**
+This solver is implemented in Julia (<http://julialang.org/>) and is available through the package manager.  It can also be run through the command line, as detailed below.
 
 More information on the solver is given at <https://ece.uwaterloo.ca/~sl2smith/GLNS/>
 
@@ -36,11 +36,52 @@ The input to the solver is a text file in
 [GTSPLIB format](http://www.cs.rhul.ac.uk/home/zvero/GTSPLIB/), which is an extension of the
 [TSPLIB format](https://www.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/).
 
+
+### Installation
+
+Begin by installing Julia v1.0 or higher from <http://julialang.org/>.
+
+GLNS can then be installed through the Julia package manager:
+```julia
+julia> Pkg.add("GLNS")
+```
+
+Once installed, import the package and run as follows:
+```julia
+julia> import GLNS
+julia> GLNS.solver("<path_to_instance>", options)
+```
+
+### Solver usage and examples
+
+*Example 1:* Solving the instance "39rat195.gtsp" using the default settings.  The solver settings, tour cost, and tour are outputted to the file "tour.txt" (written to the working directory).
+
+```julia
+julia> GLNS.solver("examples/39rat195.gtsp", output = tour.txt)
+```
+
+The file "tour.txt" can then be parsed to extract the tour and its cost.
+
+
+*Example 2:*  Running the solver with the "slow" setting.
+
+```julia
+julia> GLNS.solver("test/39rat195.gtsp", mode="slow")
+```
+
+*Example 3:*  The solver is set to run persistently (achieved by setting trials to a large number) for at most 60 seconds,
+but will quit if it finds a tour of cost 13,505 or less.  The best known solution for this instance is 13,502.
+
+```julia
+julia> GLNS.solver("test/107si535.gtsp", max_time=60, budget=13505, trials=100000)
+```
+
 ### Running from the command line
 
+Julia has a startup time of approximately 0.5 seconds, and so  this option has a delay at each call when compared to running directly through Julia.  However, this option may be preferable if interfacing with code written in another language like Python or MATLAB.  
 
-Julia has a startup time of approximately 0.5 seconds, which gives this
-option a delay over option two below.  Download the command line solver **GLNScmd.jl** from this repository and place in a convenient location.
+After installing the package as described above, download the command line solver [**GLNScmd.jl**](https://raw.githubusercontent.com/stephenlsmith/GLNS.jl/master/GLNScmd.jl) from this repository and place in a convenient location.
+
 The syntax is:
 
 ```bash
@@ -58,33 +99,12 @@ $ <path_to_script>/GLNScmd.jl test/39rat195.gtsp -mode=fast -output=tour.txt
 $ <path_to_script>/GLNScmd.jl test/39rat195.gtsp -max_time=60 -trials=100000
 ```
 
-### Running from the Julia REPL
-
-For this method you should launch Julia, include the GLNS module, and then
-call the solver. This is done as follows:
-
-```julia
-$ julia
-julia> include("GLNS.jl")
-julia> GLNS.solver("<path_to_instance>", options)
-```
-
-Here are a few more examples.  The first uses the default settings.  The
-last example is a persistent solver that will run for at most 60 seconds,
-but will quit if it finds a tour of cost 13,505 or less (the best known solution
-for this instance is 13,502):
-
-```julia
-julia> GLNS.solver("test/39rat195.gtsp")
-julia> GLNS.solver("test/39rat195.gtsp", mode="slow")
-julia> GLNS.solver("test/107si535.gtsp", max_time=60, budget=13505, trials=100000)
-```
 
 
 ## Index of files
 The GLNS solver package is arranged as follows.
 
-- GLNScmd.jl -- Command line solver 
+- GLNScmd.jl -- Command line solver
 - examples/ -- contains sample GTSP instances for testing and as example inputs
 - src/ -- contains
     - GLNS.jl --- Main Julia solver
