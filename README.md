@@ -56,7 +56,7 @@ timeout, or to have it quit when a solution cost threshold is met.
 *Example 1:* Solving the instance "39rat195.gtsp" using the default settings.  The solver settings, tour cost, and tour are outputted to the file "tour.txt" (written to the working directory).
 
 ```julia
-julia> GLNS.solver("examples/39rat195.gtsp", output = tour.txt)
+julia> GLNS.solver("examples/39rat195.gtsp", output = "tour.txt")
 ```
 
 The file "tour.txt" can then be parsed to extract the tour and its cost.
