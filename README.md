@@ -31,6 +31,7 @@ Begin by installing Julia v1.0 or higher from <http://julialang.org/>.
 
 GLNS can then be installed through the Julia package manager:
 ```julia
+julia> using Pkg
 julia> Pkg.add("GLNS")
 ```
 
