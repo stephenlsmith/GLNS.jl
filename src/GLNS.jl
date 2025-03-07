@@ -78,7 +78,7 @@ function solver(problem_instance; args...)
 		        # decide whether or not to accept trial
 				if accepttrial_noparam(trial.cost, current.cost, param[:prob_accept]) ||
 				   accepttrial(trial.cost, current.cost, temperature)
-					param[:mode] == "slow" && opt_cycle!(current, dist, sets, membership, param, setdist, "full")
+					param[:mode] == "slow" && opt_cycle!(trial, dist, sets, membership, param, setdist, "full")
 				    current = trial
 		        end
 		        if current.cost < best.cost

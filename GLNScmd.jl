@@ -34,7 +34,7 @@ function parse_cmd(ARGS)
 	end
 	if ARGS[1] == "-help" || ARGS[1] == "--help"
 		println("Usage:  GTSPcmd.jl [filename] [optional flags]\n")
-		println("Optional flags (vales are give in square brackets) :\n")
+		println("Optional flags (values are given in square brackets) :\n")
 		println("-mode=[default, fast, slow]      (default is default)")
 		println("-max_time=[Int]                  (default set by mode)")
 		println("-trials=[Int]                    (default set by mode)")
