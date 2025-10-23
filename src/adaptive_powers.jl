@@ -112,7 +112,7 @@ sums the weights for all the powers (i.e., the insertion or deletion methods)
 function total_power_weight(powers::Array{Power, 1})
 	total_weight = Dict(:early => 0.0, :mid => 0.0, :late => 0.0)
 	for phase in keys(total_weight)
-		for i = 1:length(powers)
+        for i in eachindex(powers)
 			total_weight[phase] += powers[i].weight[phase]
 		end
 	end
@@ -126,7 +126,7 @@ and selects a bin with probability equal to weight
 """
 function power_select(powers, total_weight, phase::Symbol)
 	selection = rand()*total_weight[phase]
-	for i = 1:length(powers)
+    for i in eachindex(powers)
 		if selection < powers[i].weight[phase]
 			return powers[i]
 		end

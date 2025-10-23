@@ -38,8 +38,9 @@ function read_file(filename)
 
     # Setup
     INF = 9999
+    # keep only the number regex used
     RE_INT = r"-?\d+"
-    RE_DEC = r"-?\d+\.\d+"
+    # RE_DEC unused
     RE_NUMBER = r"-?\d+\.?\d*"
 
     parse_state = "UNKNOWN_FORMAT"
@@ -339,7 +340,6 @@ function read_file(filename)
     # construct sets
     if parse_state == "TSPLIB"
         i = 1
-        sid00 = 1
         set = Int64[]
         set_data = set_data[2:end]
         while i <= length(set_data)

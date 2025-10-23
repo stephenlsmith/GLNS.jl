@@ -19,8 +19,8 @@
 """ tour type that stores the order array and the length of the tour
 """
 mutable struct Tour
-	tour::Array{Int64,1}
-	cost::Int64
+    tour::Vector{Int}
+    cost::Int64
 end
 
 """ return the vertex before tour[i] on tour """
@@ -34,9 +34,12 @@ end
 
 """ some insertions break tie by taking first minimizer -- this
 randomization helps avoid getting stuck choosing same minimizer """
-function pivot_tour!(tour::Array{Int64,1})
-	pivot = rand(1:length(tour))
-	tour = [tour[pivot:end]; tour[1:pivot-1]]
+function pivot_tour!(tour::Vector{Int})
+    pivot = rand(1:length(tour))
+    if pivot != 1
+        tmp = [tour[pivot:end]; tour[1:pivot-1]]
+        tour[:] = tmp
+    end
 end
 
 
@@ -51,7 +54,7 @@ function findmember(num_vertices::Int64, sets::Array{Any, 1})
     """  create an array containing the set number for each vertex """
 	member = zeros(Int64, num_vertices)
     num_verts = 0
-    for i = 1:length(sets)
+    for i in eachindex(sets)
         set = sets[i]
         num_verts += length(set)
         for vertex in set
@@ -80,9 +83,9 @@ function set_vertex_dist(dist::Array{Int64, 2}, num_sets::Int, member::Array{Int
 	This is used in insertion to choose the next set.
 	"""
     numv = size(dist, 1)
-    dist_set_vert = typemax(Int64) * ones(Int64, num_sets, numv)
-	mindist = typemax(Int64) * ones(Int64, num_sets, numv)
-	dist_vert_set = typemax(Int64) * ones(Int64, numv, num_sets)
+    dist_set_vert = fill(typemax(Int64), num_sets, numv)
+    mindist = fill(typemax(Int64), num_sets, numv)
+    dist_vert_set = fill(typemax(Int64), numv, num_sets)
 
 	for i = 1:numv
         for j = 1:numv
@@ -107,24 +110,7 @@ end
 
 
 
-function set_vertex_distance(dist::Array{Int64, 2}, sets::Array{Any, 1})
-    """
-	Computes the minimum distance between each set and each vertex
-	"""
-    numv = size(dist, 1)
-    nums = length(sets)
-    dist_set_vert = typemax(Int64) * ones(Int64, nums, numv)
-	# dist_vert_set = typemax(Int64) * ones(Int64, numv, nums)
-    for i = 1:nums
-        for j = 1:numv
-			for k in sets[i]
-				newdist = min(dist[k, j], dist[j, k])
-				dist_set_vert[i,j] > newdist && (dist_set_vert[i,j] = newdist)
-			end
-        end
-    end
-    return dist_set_vert
-end
+## set_vertex_distance is unused and removed for clarity
 
 
 """ Find the set with the smallest number of vertices """
@@ -150,11 +136,10 @@ decide whether or not to accept a trial based on simulated annealing criteria
 """
 function accepttrial(trial_cost::Int64, current_cost::Int64, temperature::Float64)
     if trial_cost <= current_cost
-        accept_prob = 2.0
-	else
-        accept_prob = exp((current_cost - trial_cost)/temperature)
+        return true
     end
-    return (rand() < accept_prob ? true : false)
+    accept_prob = exp((current_cost - trial_cost)/temperature)
+    return rand() < accept_prob
 end
 
 
@@ -165,7 +150,7 @@ function accepttrial_noparam(trial_cost::Int64, current_cost::Int64, prob_accept
     if trial_cost <= current_cost
         return true
 	end
-	return (rand() < prob_accept ? true : false)
+	return rand() < prob_accept
 end
 
 
@@ -173,7 +158,7 @@ end
 ################ Tour checks ######################
 
 """  Compute the length of a tour  """
-@inline function tour_cost(tour::Array{Int64,1}, dist::Array{Int64,2})
+@inline function tour_cost(tour::Vector{Int}, dist::Array{Int64,2})
     tour_length = dist[tour[end], tour[1]]
     @inbounds for i in 1:length(tour)-1
     	tour_length += dist[tour[i], tour[i+1]]
@@ -185,8 +170,8 @@ end
 """
 Checks if a tour is feasible in that it visits each set exactly once.
 """
-function tour_feasibility(tour::Array{Int64,1}, membership::Array{Int64,1},
-					      num_sets::Int64)
+function tour_feasibility(tour::Vector{Int}, membership::Array{Int64,1},
+                          num_sets::Int)
     length(tour) != num_sets && return false
 
     set_test = falses(num_sets)
@@ -215,9 +200,9 @@ end
 
 
 """ rand_select for randomize over all minimizers """
-@inline function rand_select(a::Array{Int64, 1}, val::Int)
+@inline function rand_select(a::Vector{Int}, val::Int)
 	inds = Int[]
-	@inbounds for i=1:length(a)
+@inbounds for i in eachindex(a)
 		a[i] == val && (push!(inds, i))
 	end
 	return rand(inds)

@@ -37,7 +37,7 @@ function solver(problem_instance; args...)
 	  		     :cold_trial => 1,
 				 :total_iter => 0,
 				 :print_time => init_time)
-	lowest = Tour(Int64[], typemax(Int64))
+    lowest = Tour(Int[], typemax(Int64))
 	start_time = time_ns()
 	# compute set distances which will be helpful
 	setdist = set_vertex_dist(dist, num_sets, membership)
@@ -58,7 +58,7 @@ function solver(problem_instance; args...)
 		while count[:warm_trial] <= param[:warm_trials]
 			iter_count = 1
 			current = Tour(copy(best.tour), best.cost)
-			temperature = 1.442 * param[:accept_percentage] * best.cost
+			temperature = 1.442 * param[:accept_percentage] * best.cost # 1.442 is sqrt(2)
 			# accept a solution with 50% higher cost with 0.05% change after num_iterations.
 			cooling_rate = ((0.0005 * lowest.cost)/(param[:accept_percentage] *
 									current.cost))^(1/param[:num_iterations])
@@ -73,7 +73,7 @@ function solver(problem_instance; args...)
 				if iter_count > param[:num_iterations]/2 && phase == :early
 					phase = :mid  # move to mid phase after half iterations
 				end
-				trial = remove_insert(current, best, dist, membership, setdist, sets, powers, param, phase)
+                trial = remove_insert(current, dist, membership, setdist, sets, powers, param, phase)
 
 		        # decide whether or not to accept trial
 				if accepttrial_noparam(trial.cost, current.cost, param[:prob_accept]) ||
