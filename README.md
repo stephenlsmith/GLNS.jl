@@ -4,6 +4,8 @@ GLNS is a solver for the Generalized Traveling Salesman Problem (GTSP), implemen
 
 More information on the solver is given at <https://ece.uwaterloo.ca/~sl2smith/GLNS/>
 
+A C++ implementation with a command-line solver, C/C++ libraries, and Python bindings is available at [stephenlsmith/glns-cpp](https://github.com/stephenlsmith/glns-cpp).
+
 ## Citing this work
 The GLNS solver and its settings are described in the following paper
 [[DOI]](https://doi.org/10.1016/j.cor.2017.05.010) [[PDF]](https://ece.uwaterloo.ca/~sl2smith/papers/2017COR-GLNS.pdf):
